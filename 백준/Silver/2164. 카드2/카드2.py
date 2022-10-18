@@ -1,17 +1,13 @@
 from collections import deque
 
 n = int(input())
-arr = []
 
-for i in range(1,n+1):
-    arr.append(i)
-
-q = deque(arr)
+a = deque([i+1 for i in range(n)])
 
 while True:
-    if len(q)==1:
-        print(q[0])
+    if len(a) == 1:
+        print(a[0])
         break
-    q.popleft()
-    top = q.popleft()
-    q.append(top)
+    a.popleft()
+    a.rotate(-1)
+
