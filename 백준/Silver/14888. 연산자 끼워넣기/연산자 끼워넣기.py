@@ -1,30 +1,27 @@
 import sys
 input = sys.stdin.readline
 
-N = int(input())
+n = int(input())
 A = list(map(int, input().split()))
-op = list(map(int, input().split()))
+plus, minus, mul, div = map(int, input().split())
+max_r = -1e9
+min_r = 1e9
+def cal(plus, minus, mul, div,i,res):
+    global max_r, min_r
+    if i==n:
+        # print("res: {}".format(res))
+        max_r = max(res,max_r)
+        min_r = min(res,min_r)
+        return 
+    if plus:
+        cal(plus-1,minus, mul,div,i+1,res+A[i])
+    if minus:
+        cal(plus,minus-1, mul,div,i+1,res-A[i])
+    if mul:
+        cal(plus,minus, mul-1,div,i+1,res*A[i])
+    if div:
+        cal(plus,minus,mul,div-1,i+1,int(res/A[i]))
 
-maximum = -1e9
-minimum = 1e9
-
-def dfs(depth, total, plus, minus, multip, div):
-  global maximum, minimum
-  
-  if depth == N:
-    maximum = max(total, maximum)
-    minimum = min(total, minimum)
-    return 
-
-  if plus:
-    dfs(depth+1, total+A[depth], plus-1, minus, multip, div)
-  if minus:
-    dfs(depth+1, total-A[depth], plus, minus-1, multip, div)
-  if multip:
-    dfs(depth+1, total*A[depth], plus, minus, multip-1, div)
-  if div:
-    dfs(depth+1, int(total/A[depth]), plus, minus, multip, div-1)
-
-dfs(1,A[0],op[0],op[1],op[2],op[3])
-print(maximum)
-print(minimum)
+cal(plus, minus, mul, div,1,A[0])
+print(max_r)
+print(min_r)
